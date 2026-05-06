@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engineer Command Center</title>
+    <style>
+        :root {
+            --glow: #00ff41;
+            --bg: #050505;
+            --panel: #111;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--glow);
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+            height: 90vh;
+        }
+
+        .panel {
+            border: 1px solid var(--glow);
+            padding: 20px;
+            background: var(--panel);
+            box-shadow: 0 0 10px rgba(0, 255, 65, 0.2);
+            overflow: hidden;
+        }
+
+        h2 { border-bottom: 1px solid var(--glow); padding-bottom: 10px; font-size: 1.2rem; }
+
+        .stat-row { margin: 10px 0; display: flex; justify-content: space-between; }
+
+        #console {
+            background: black;
+            height: 300px;
+            padding: 10px;
+            overflow-y: auto;
+            font-size: 0.9rem;
+            border: 1px inset var(--glow);
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--glow);
+            border: 1px solid var(--glow);
+            padding: 8px 15px;
+            cursor: pointer;
+            margin: 5px;
+            transition: 0.3s;
+        }
+
+        .btn:hover { background: var(--glow); color: black; }
+
+        .glitch { animation: scan 4s linear infinite; }
+
+        @keyframes scan {
+            0% { text-shadow: 2px 0 0 red, -2px 0 0 blue; }
+            2% { text-shadow: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Left Panel: System Identity -->
+    <div class="panel">
+        <h2 class="glitch">SYSTEM IDENTITY</h2>
+        <div class="stat-row"><span>OPERATOR:</span> <span>S. UPADHYAY</span></div>
+        <div class="stat-row"><span>CORE:</span> <span>ECE_ENG_3RD_YR</span></div>
+        <div class="stat-row"><span>LOCATION:</span> <span>BHOPAL_IN</span></div>
+        <div class="stat-row"><span>STATUS:</span> <span id="uptime">00:00:00</span></div>
+        
+        <div style="margin-top: 30px;">
+            <h2>SUBSYSTEMS</h2>
+            <button class="btn" onclick="logData('IoT Module Active...')">IoT LINK</button>
+            <button class="btn" onclick="logData('Sensors Calibrated.')">SENSORS</button>
+            <button class="btn" onclick="logData('Scanning for leaks...')">LEAK_DETECTOR</button>
+        </div>
+    </div>
+
+    <!-- Right Panel: Terminal Output -->
+    <div class="panel">
+        <h2>TERMINAL_OUTPUT_v4.0</h2>
+        <div id="console">> Initializing system...<br>> Loading hardware drivers...</div>
+        
+        <div style="margin-top: 20px;">
+            <h2>ACTIVE MISSIONS</h2>
+            <p>1. BGI Hackathon Deployment (May 2026)</p>
+            <p>2. Embedded Systems Optimization</p>
+            <p>3. Advanced Troubleshooting Protocol</p>
+        </div>
+    </div>
+
+    <script>
+        // Real-time Clock Logic
+        function updateUptime() {
+            const now = new Date();
+            document.getElementById('uptime').innerText = now.toLocaleTimeString();
+        }
+        setInterval(updateUptime, 1000);
+
+        // Terminal Logging Logic
+        function logData(message) {
+            const consoleBox = document.getElementById('console');
+            const timestamp = new Date().toLocaleTimeString().split(' ')[0];
+            consoleBox.innerHTML += `<br>> [${timestamp}] ${message}`;
+            consoleBox.scrollTop = consoleBox.scrollHeight;
+        }
+
+        // Random background "system noise"
+        setInterval(() => {
+            const messages = [
+                "Voltage stable...",
+                "ThingSpeak API pinged",
+                "Arduino handshake successful",
+                "Memory leak: 0%",
+                "Circuit impedance: Optimal"
+            ];
+            if (Math.random() > 0.7) {
+                logData(messages[Math.floor(Math.random() * messages.length)]);
+            }
+        }, 5000);
+    </script>
+</body>
+</html>
